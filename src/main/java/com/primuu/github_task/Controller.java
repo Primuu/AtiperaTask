@@ -1,6 +1,5 @@
 package com.primuu.github_task;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,12 +17,12 @@ public class Controller {
     }
 
     @GetMapping("/get-repos/{username}")
-    public String getUserReposByUsername(@PathVariable String username) {
+    public GithubRepoModel[] getUserReposByUsername(@PathVariable String username) {
 //    public List<GithubRepoModel> getUserReposByUsername(@PathVariable String username) {
         return restClient.get()
                 .uri("/users/{username}/repos", username)
                 .retrieve()
-                .body(String.class);
+                .body(GithubRepoModel[].class);
     }
 
 }
