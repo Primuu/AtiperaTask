@@ -2,6 +2,7 @@ package com.primuu.github_task;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
@@ -22,10 +23,15 @@ final class GithubClient {
     }
 
     List<GithubRepoModel> getRepos(String username) {
-        return restClient.get()
-                .uri("/users/{username}/repos", username)
-                .retrieve()
-                .body(REPOS);
+        try {
+            return restClient.get()
+                    .uri("/users/{username}/repos", username)
+                    .retrieve()
+                    .body(REPOS);
+        } catch (HttpClientErrorException.NotFound exception) {
+            throw new GithubUserNotFoundException("User with given username not found.");
+        }
+
     }
 
     List<GithubBranchModel> getBranches(String owner, String repo) {

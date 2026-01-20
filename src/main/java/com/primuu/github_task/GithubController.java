@@ -2,11 +2,11 @@ package com.primuu.github_task;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 final class GithubController {
 
     private final GithubService service;
@@ -17,13 +17,13 @@ final class GithubController {
 
     @GetMapping("/get-repos/{username}")
     List<RepoModelResponse> getUserRepos (@PathVariable String username) {
-        return service.listNonForkReposWithBranches(username);
+        return service.listNonForkUserRepositories(username);
     }
 
-    @ExceptionHandler(HttpClientErrorException.NotFound.class)
+    @ExceptionHandler(GithubUserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    ErrorResponse handleNotFoundException(HttpClientErrorException.NotFound exception) {
-        return new ErrorResponse(404, "User with given username not found.");
+    ErrorResponse handleNotFoundException(GithubUserNotFoundException exception) {
+        return new ErrorResponse(404, exception.getMessage());
     }
 
 }
