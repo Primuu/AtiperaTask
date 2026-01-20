@@ -13,16 +13,12 @@ public class Controller {
 
     private final RestClient restClient;
 
-    public Controller(RestClient.Builder builder) {
-        this.restClient = builder
-                .baseUrl("https://api.github.com")
-                .defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github+json")
-                .defaultHeader("X-GitHub-Api-Version", "2022-11-28")
-                .build();
+    public Controller(RestClient restClient) {
+        this.restClient = restClient;
     }
 
     @GetMapping("/get-repos/{username}")
-    public String getReposByUsername(@PathVariable String username) {
+    public String getUserReposByUsername(@PathVariable String username) {
 //    public List<GithubRepoModel> getUserReposByUsername(@PathVariable String username) {
         return restClient.get()
                 .uri("/users/{username}/repos", username)
