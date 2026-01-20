@@ -13,23 +13,30 @@ final class GithubService {
         this.client = client;
     }
 
-    List<RepoModelResponse> listNonForkReposWithBranches(String username) {
+    List<RepoModelResponse> listNonForkUserRepositories(String username) {
         return client.getRepos(username).stream()
                 .filter(repo -> !repo.fork())
-                .map(repo -> {
-                    String repositoryName = repo.name();
-                    String ownerLogin = repo.owner().login();
-
-                    List<BranchModelResponse> branches = client.getBranches(ownerLogin, repositoryName).stream()
-                            .map(branch -> new BranchModelResponse(
-                                    branch.name(),
-                                    branch.commit().sha()
-                            ))
-                            .toList();
-
-                    return new RepoModelResponse(repositoryName, ownerLogin, branches);
-                        })
+                .map(this::toRepoResponse)
                 .toList();
+    }
+
+    private RepoModelResponse toRepoResponse(GithubRepoModel repo) {
+        String repoName = repo.name();
+        String ownerLogin = repo.owner().login();
+
+        List<BranchModelResponse> branches = fetchBranchResponses(ownerLogin, repoName);
+
+        return new RepoModelResponse(repoName, ownerLogin, branches);
+    }
+
+    private List<BranchModelResponse> fetchBranchResponses(String ownerLogin, String repoName) {
+        return client.getBranches(ownerLogin, repoName).stream()
+                .map(this::toBranchResponse)
+                .toList();
+    }
+
+    private BranchModelResponse toBranchResponse(GithubBranchModel branch) {
+        return new BranchModelResponse(branch.name(), branch.commit().sha());
     }
 
 }

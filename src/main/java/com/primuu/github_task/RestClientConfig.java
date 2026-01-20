@@ -6,7 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestClient;
 
 @Configuration
-public class RestClientConfig {
+class RestClientConfig {
 
     @Bean
     RestClient restClient(RestClient.Builder builder) {

@@ -1,6 +1,6 @@
 package com.primuu.github_task;
 
-public record ErrorResponse(
+record ErrorResponse(
         int status,
         String message
 ) {}
