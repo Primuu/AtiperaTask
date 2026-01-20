@@ -17,7 +17,7 @@ final class GithubController {
 
     @GetMapping("/get-repos/{username}")
     List<RepoModelResponse> getUserRepos (@PathVariable String username) {
-        return service.listNonForkRepos(username);
+        return service.listNonForkReposWithBranches(username);
     }
 
     @ExceptionHandler(HttpClientErrorException.NotFound.class)

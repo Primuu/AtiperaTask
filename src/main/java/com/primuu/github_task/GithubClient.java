@@ -14,15 +14,25 @@ final class GithubClient {
     private static final ParameterizedTypeReference<List<GithubRepoModel>> REPOS =
             new ParameterizedTypeReference<>() {};
 
+    private static final ParameterizedTypeReference<List<GithubBranchModel>> BRANCHES =
+            new ParameterizedTypeReference<>() {};
+
     GithubClient(RestClient restClient) {
         this.restClient = restClient;
     }
 
-    List<GithubRepoModel> getUserReposByUsername(String username) {
+    List<GithubRepoModel> getRepos(String username) {
         return restClient.get()
                 .uri("/users/{username}/repos", username)
                 .retrieve()
                 .body(REPOS);
+    }
+
+    List<GithubBranchModel> getBranches(String owner, String repo) {
+        return restClient.get()
+                .uri("/repos/{owner}/{repo}/branches", owner, repo)
+                .retrieve()
+                .body(BRANCHES);
     }
 
 }
