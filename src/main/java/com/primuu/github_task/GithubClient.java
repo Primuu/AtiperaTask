@@ -23,7 +23,6 @@ final class GithubClient {
                 .uri("/users/{username}/repos", username)
                 .retrieve()
                 .body(REPOS);
-        // TODO: error handling
     }
 
 }
