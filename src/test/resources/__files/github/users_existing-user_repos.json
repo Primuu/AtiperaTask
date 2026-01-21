@@ -1,0 +1,16 @@
+[
+  {
+    "name": "forked-repo",
+    "fork": true,
+    "owner": {
+      "login": "existing-user"
+    }
+  },
+  {
+    "name": "real-repo",
+    "fork": false,
+    "owner": {
+      "login": "existing-user"
+    }
+  }
+]

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.primuu"
-version = "0.0.1-SNAPSHOT"
+version = "1.0"
 description = "Task for Atipera"
 
 java {
@@ -21,8 +21,12 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-restclient")
 	implementation("org.springframework.boot:spring-boot-starter-webmvc")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-restclient-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.wiremock.integrations:wiremock-spring-boot:4.0.9")
+
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
