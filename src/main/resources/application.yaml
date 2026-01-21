@@ -1,3 +1,9 @@
 spring:
   application:
     name: githubtask
+
+github:
+  base-url: "https://api.github.com"
+  user-agent: "github-task"
+  api-version: "2022-11-28"
+

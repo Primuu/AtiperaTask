@@ -1,5 +1,6 @@
 package com.primuu.github_task;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -8,13 +9,19 @@ import org.springframework.web.client.RestClient;
 @Configuration
 class RestClientConfig {
 
+    private static final String GITHUB_ACCEPT = "application/vnd.github+json";
+    private static final String GITHUB_API_VERSION_HEADER = "X-GitHub-Api-Version";
+
     @Bean
-    RestClient restClient(RestClient.Builder builder) {
+    RestClient restClient(RestClient.Builder builder,
+                          @Value("${github.base-url}") String baseUrl,
+                          @Value("${github.user-agent}") String userAgent,
+                          @Value("${github.api-version}") String apiVersion) {
         return builder
-                .baseUrl("https://api.github.com")
-                .defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github+json")
-                .defaultHeader(HttpHeaders.USER_AGENT, "github-task")
-                .defaultHeader("X-GitHub-Api-Version", "2022-11-28")
+                .baseUrl(baseUrl)
+                .defaultHeader(HttpHeaders.ACCEPT, GITHUB_ACCEPT)
+                .defaultHeader(HttpHeaders.USER_AGENT, userAgent)
+                .defaultHeader(GITHUB_API_VERSION_HEADER, apiVersion)
                 .build();
     }
 
